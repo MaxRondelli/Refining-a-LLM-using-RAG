@@ -3,12 +3,13 @@ import os
 from dotenv import load_dotenv 
 load_dotenv() 
 
+elastic_port_path = os.getenv("ELASTIC_HOST")
 elastic_username = os.getenv("ELASTIC_USERNAME")
 elastic_pwd = os.getenv("ELASTIC_PWD")
 ca_certs = os.getenv("CA_CERTS_PATH")
 
 client = Elasticsearch(
-  "https://172.21.0.2:9200/",
+  elastic_port_path,
   basic_auth=(elastic_username, elastic_pwd),
   ca_certs=ca_certs
 )
