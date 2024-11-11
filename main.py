@@ -81,7 +81,7 @@ def main() -> object:
                 resp = client.index(index="llm-index", id=elastic_document["id"],
                                     document=elastic_document)
                 with open(os.path.join(book_json_folder,
-                                       f"""page_{elastic_document['page_number']}_{resp["result"]}"""), 'w') as fp:
+                                       f"""page_{elastic_document['id']}_{resp["result"]}"""), 'w') as fp:
                     json.dump(elastic_document, fp)
         else:
             print(f" > Book {book_name} already indexed")
