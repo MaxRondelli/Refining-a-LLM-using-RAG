@@ -1,4 +1,7 @@
 .env
+__pycache__
+
+# Dataset
 dataset/BOOKS/*
 dataset/JSON_FILES/*
 dataset/MAGAZINES
