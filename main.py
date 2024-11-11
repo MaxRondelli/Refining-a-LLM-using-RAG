@@ -26,7 +26,6 @@ client = Elasticsearch(
   ca_certs=ca_certs
 )
 
-
 def clean_text(text):
     # Remove unwanted special characters (such as strange symbols) but keep punctuation (.,;:)
     text = re.sub(r'[^\w\s.,;:]', '', text)  # Keeps letters, numbers, spaces, and common punctuation
@@ -45,10 +44,8 @@ def clean_text(text):
 
     return text
 
-
 def len_func(text):
     return len(text)
-
 
 def main() -> object:
     for book_name in os.listdir(BOOKS_FOLDER):
@@ -86,8 +83,6 @@ def main() -> object:
                 with open(os.path.join(book_json_folder,
                                        f"""page_{elastic_document['page_number']}_{resp["result"]}"""), 'w') as fp:
                     json.dump(elastic_document, fp)
-
-
         else:
             print(f" > Book {book_name} already indexed")
 

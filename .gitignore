@@ -1,3 +1,5 @@
 .env
 dataset/BOOKS/*
-dataset/JSON_FILES/*
+# dataset/JSON_FILES/*
+dataset/MAGAZINES
+dataset/output
