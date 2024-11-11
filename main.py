@@ -71,16 +71,17 @@ def main() -> object:
             para_list = text_splitter.create_documents(texts=pages,
                                                        metadatas=metadata_l)
 
-            for document in tqdm(para_list, " > Generating embeddings"):
+            for i, document in tqdm(enumerate(para_list), total=len(para_list), desc=" > Generating embeddings"):
                 doc = json.loads(document.json())
                 elastic_document = {
+                    "id": doc["metadata"]["source_file"] + "_" + str(doc["metadata"]["page_number"]) + "_" + str(i),
                     "source_file": doc["metadata"]["source_file"],
                     "page_number": doc["metadata"]["page_number"],
                     "plain_text": doc["page_content"],
                     "embeddings": embeddings.embed_query(doc["page_content"])
                 }
 
-                resp = client.index(index="llm-index", id=f"""{book_name}_{elastic_document['page_number']}""",
+                resp = client.index(index="llm-index", id=elastic_document["id"],
                                     document=elastic_document)
                 with open(os.path.join(book_json_folder,
                                        f"""page_{elastic_document['page_number']}_{resp["result"]}"""), 'w') as fp:
