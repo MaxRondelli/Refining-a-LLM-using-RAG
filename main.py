@@ -1,27 +1,21 @@
-from langchain_openai import OpenAI, OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from elasticsearch import Elasticsearch
 import os
-from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv(".env")
 
-elastic_port_path = os.getenv("ELASTIC_HOST")
-elastic_username = os.getenv("ELASTIC_USERNAME")
-elastic_pwd = os.getenv("ELASTIC_PWD")
-ca_certs = os.getenv("CA_CERTS_PATH")
-
+ELASTIC_POST_HOST = os.getenv("ELASTIC_HOST")
+ELASTIC_USERNAME = os.getenv("ELASTIC_USERNAME")
+ELASTIC_PWD = os.getenv("ELASTIC_PWD")
+CA_CERTS = os.getenv("CA_CERTS_PATH")
 CLIENT = Elasticsearch(
-  elastic_port_path,
-  basic_auth=(elastic_username, elastic_pwd),
-  ca_certs=ca_certs
+  ELASTIC_POST_HOST,
+  basic_auth=(ELASTIC_USERNAME, ELASTIC_PWD),
+  ca_certs=CA_CERTS
 )
-
 EMBEDDINGS = OpenAIEmbeddings(
     model="text-embedding-3-large",
 )
-
-# Get user prompt to feed into the LLM.
-# user_prompt = input(" > Ask me anything about design.\n")
 
 # Create embedding for the user prompt
 def relevant_documents(user_prompt):
@@ -41,13 +35,16 @@ def relevant_documents(user_prompt):
         ],
     )
 
+    # The interval [0:3] means we're going to take only three documents around the user_prompt embedding.
+    context = resp['hits']['hits'][0:3]
+
     template = f"""
     These Human will ask you a questions about design. 
     Use following piece of context to answer the question. 
     If you don't know the answer, just say you don't know. 
     Keep the answer within 2 sentences and concise, according to the question language.
 
-    Context: {resp['hits']['hits'][0:3]}
+    Context: {context}
     Question: {user_prompt}
     Answer: 
     """

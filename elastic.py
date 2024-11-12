@@ -3,17 +3,17 @@ import os
 from dotenv import load_dotenv
 load_dotenv(".env")
 
-elastic_port_path = os.getenv("ELASTIC_HOST")
-elastic_username = os.getenv("ELASTIC_USERNAME")
-elastic_pwd = os.getenv("ELASTIC_PWD")
-ca_certs = os.getenv("CA_CERTS_PATH")
-
-client = Elasticsearch(
-  elastic_port_path,
-  basic_auth=(elastic_username, elastic_pwd),
-  ca_certs=ca_certs
+ELASTIC_POST_HOST = os.getenv("ELASTIC_HOST")
+ELASTIC_USERNAME = os.getenv("ELASTIC_USERNAME")
+ELASTIC_PWD = os.getenv("ELASTIC_PWD")
+CA_CERTS = os.getenv("CA_CERTS_PATH")
+CLIENT = Elasticsearch(
+  ELASTIC_POST_HOST,
+  basic_auth=(ELASTIC_USERNAME, ELASTIC_PWD),
+  ca_certs=CA_CERTS
 )
 
+# Set up the configuration for the elastic index database
 index_name = "llm-index"
 index_settings = {
     "number_of_shards": 1
@@ -30,7 +30,6 @@ index_mapping = {
   }
 }
 
-
-res = client.indices.create(index=index_name, mappings=index_mapping, settings=index_settings)
+res = CLIENT.indices.create(index=index_name, mappings=index_mapping, settings=index_settings)
 
 print(res)
