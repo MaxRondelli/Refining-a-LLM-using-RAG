@@ -26,10 +26,10 @@ pip install -r requirements.txt
 3. Create a `.env` file in the root directory with your credentials:
 ```env
 OPENAI_API_KEY=your_openai_api_key
-ELASTICSEARCH_HOST=your_elasticsearch_host
-ELASTICSEARCH_PORT=your_elasticsearch_port
-ELASTICSEARCH_USERNAME=your_username
-ELASTICSEARCH_PASSWORD=your_password
+ELASTIC_HOST=your_elasticsearch_host
+CA_CERTS_PATH=ca_certs_path
+ELASTIC_USERNAME=your_username
+ELASTIC_PWD=your_password
 ```
 
 ## Project's Structure
