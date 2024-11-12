@@ -1,0 +1,10 @@
+dotenv
+elasticsearch
+langchain
+langchain-openai
+tqdm
+json
+os
+re
+openai
+streamlit
